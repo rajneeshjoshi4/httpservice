@@ -33,6 +33,7 @@ export class PostsComponent implements OnInit {
         console.log(response);
       })
   }
+  
 
   onSubmit() {
     //console.log(this.inputPostForm.value.title, this.inputPostForm.value.body);
