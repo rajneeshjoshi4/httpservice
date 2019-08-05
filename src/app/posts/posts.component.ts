@@ -9,15 +9,16 @@ import { NgForm } from '@angular/forms';
 })
 export class PostsComponent implements OnInit {
   @ViewChild('form', { static: true }) inputPostForm: NgForm;
-  posts: any;
-  dataUrl: 'https://jsonplaceholder.typicode.com/posts';
+  posts: any[];
+  dataUrl: string = 'https://jsonplaceholder.typicode.com/posts';
 
   constructor(private http: HttpClient) {
+    //this.dataUrl = 
 
   }
 
   getPost() {
-    this.http.get('https://jsonplaceholder.typicode.com/posts')
+    this.http.get(this.dataUrl)
       .subscribe(response => {
         this.posts = response;
         console.log(this.posts)
@@ -26,17 +27,18 @@ export class PostsComponent implements OnInit {
 
   createPost(title, body) {
     let post: any = { title: title, body: body };
-    this.http.post('https://jsonplaceholder.typicode.com/posts', post)
+    this.http.post(this.dataUrl, post)
       .subscribe(response => {
         post.id = response.id;
         this.posts.splice(this.posts.length, 0, post);
         console.log(response);
       })
   }
-  
+
 
   onSubmit() {
     //console.log(this.inputPostForm.value.title, this.inputPostForm.value.body);
+    this.createPost(this.inputPostForm.value.title, this.inputPostForm.value.body);
 
     this.inputPostForm.reset();
   }
