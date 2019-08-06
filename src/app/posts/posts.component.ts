@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-posts',
@@ -9,30 +9,42 @@ import { NgForm } from '@angular/forms';
 })
 export class PostsComponent implements OnInit {
   @ViewChild('form', { static: true }) inputPostForm: NgForm;
-  posts: any[];
-  dataUrl: string = 'https://jsonplaceholder.typicode.com/posts';
+  posts: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private service: PostService) {
     //this.dataUrl = 
 
   }
 
-  getPost() {
-    this.http.get(this.dataUrl)
+
+  createPost(titleValue, bodyValue) {
+    let post: any = { title: titleValue, body: bodyValue };
+    this.service.createPost(post)
       .subscribe(response => {
-        this.posts = response;
-        console.log(this.posts)
+        post.id = this.posts[this.posts.length - 1].id + 1;
+        this.posts.push(post);
+        console.log(response);
       })
   }
 
-  createPost(title, body) {
-    let post: any = { title: title, body: body };
-    this.http.post(this.dataUrl, post)
+  updatePost(post) {
+      this.service.updatePost(post)
       .subscribe(response => {
-        post.id = response.id;
-        this.posts.splice(this.posts.length, 0, post);
+        let index = this.posts.indexOf(post);
+        this.posts[index].title = this.inputPostForm.value.title;
+        this.posts[index].body = this.inputPostForm.value.body;
         console.log(response);
       })
+
+  }
+
+  deletePost(post) {
+    this.service.deletePost(post)
+      .subscribe(response => {
+        let index = this.posts.indexOf(post)
+        this.posts.splice(index, 1);
+      })
+
   }
 
 
@@ -43,8 +55,16 @@ export class PostsComponent implements OnInit {
     this.inputPostForm.reset();
   }
 
+  onEdit() {
+
+  }
+
   ngOnInit() {
-    this.getPost();
+    this.service.getPosts()
+      .subscribe(response => {
+        this.posts = response;
+        console.log(this.posts);
+      })
   }
 
 }

@@ -16,6 +16,7 @@
     <td>{{post.id}}</td>
     <td>{{post.title}}</td>
     <td>{{post.body}}</td>
+    <td><a (click)=updatePost(post)>edit</a> | <a (click)=deletePost(post)>delete</a></td>
   </tr>
 
 </table>
