@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../services/post.service';
+import { RouterModule, Routes, Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
@@ -9,26 +10,13 @@ import { PostService } from '../services/post.service';
 })
 export class PostsComponent implements OnInit {
   @ViewChild('form', { static: true }) inputPostForm: NgForm;
-  posts: any;
+  posts: any = [];
 
-  constructor(private service: PostService) {
-    //this.dataUrl = 
-
-  }
-
-
-  createPost(titleValue, bodyValue) {
-    let post: any = { title: titleValue, body: bodyValue };
-    this.service.createPost(post)
-      .subscribe(response => {
-        post.id = this.posts[this.posts.length - 1].id + 1;
-        this.posts.push(post);
-        console.log(response);
-      })
+  constructor(private service: PostService, private router: Router) {
   }
 
   updatePost(post) {
-      this.service.updatePost(post)
+    this.service.updatePost(post)
       .subscribe(response => {
         let index = this.posts.indexOf(post);
         this.posts[index].title = this.inputPostForm.value.title;
@@ -39,23 +27,20 @@ export class PostsComponent implements OnInit {
   }
 
   deletePost(post) {
-    this.service.deletePost(post)
-      .subscribe(response => {
-        let index = this.posts.indexOf(post)
-        this.posts.splice(index, 1);
-      })
+    //console.log(post);
+    if (confirm('Are you sure?')) {
+      this.service.deletePost(post)
+        .subscribe(response => {
+          let index = this.posts.indexOf(post)
+          this.posts.splice(index, 1);
+        })
+    }
 
   }
 
 
-  onSubmit() {
-    //console.log(this.inputPostForm.value.title, this.inputPostForm.value.body);
-    this.createPost(this.inputPostForm.value.title, this.inputPostForm.value.body);
-
-    this.inputPostForm.reset();
-  }
-
-  onEdit() {
+  nvaigateToAdd() {
+    this.router.navigate(['/addPost']);
 
   }
 
@@ -63,7 +48,7 @@ export class PostsComponent implements OnInit {
     this.service.getPosts()
       .subscribe(response => {
         this.posts = response;
-        console.log(this.posts);
+        //console.log(this.posts);
       })
   }
 

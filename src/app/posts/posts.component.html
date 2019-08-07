@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <form #form="ngForm" (ngSubmit)="onSubmit()">
     <label>Title:</label>
     <input ngModel name="title" type="text" />
@@ -9,14 +9,18 @@
     <button type="submit">Submit</button>
   </form>
 
-</div>
+</div> -->
+<button (click)="nvaigateToAdd()">Add Post</button>
 
 <table>
   <tr *ngFor="let post of posts">
     <td>{{post.id}}</td>
     <td>{{post.title}}</td>
     <td>{{post.body}}</td>
-    <td><a (click)=updatePost(post)>edit</a> | <a (click)=deletePost(post)>delete</a></td>
+    <td>
+      <a [routerLink]="['/editPost/', post.id]">edit</a> |
+      <a (click)=deletePost(post)>delete</a>
+    </td>
   </tr>
 
 </table>
