@@ -6,9 +6,13 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 })
 export class PostService {
   private dataUrl: string = 'http://localhost:3000/posts';
+  private compunnalapi: string = 'http://inspirecrqa.compunnel.com/api/';
 
   constructor(private http: HttpClient) { }
 
+  getApprovedStatus() {
+    return this.http.get(this.compunnalapi+'GetApprovedStatus');
+  }
 
   getPosts() {
     return this.http.get(this.dataUrl)
@@ -21,7 +25,7 @@ export class PostService {
   updatePost(post) {
     return this.http.put(this.dataUrl + '/' + post.id, post)
   }
-  
+
   deletePost(post) {
     return this.http.delete(this.dataUrl + '/' + post.id)
   }

@@ -1,11 +1,11 @@
 <a routerLink="/">Back</a>
 <div>
-  <form #form="ngForm" (ngSubmit)="editPost()">
+  <form [formGroup]="editPostForm" (ngSubmit)="onUpdate()">
     <label>Title:</label>
-    <input [(ngModel)]="etitle" name="title" type="text" />
+    <input formControlName="title" type="text" />
 
     <label>Body:</label>
-    <input [(ngModel)]="ebody" name="body" type="text" />
+    <input formControlName="body" type="text" />
 
     <button type="submit">Update</button>
   </form>
@@ -13,3 +13,5 @@
   <div *ngIf="isAdded">{{confermationStr}}</div>
 
 </div>
+
+{{id}}

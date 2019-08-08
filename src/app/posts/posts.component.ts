@@ -15,16 +15,16 @@ export class PostsComponent implements OnInit {
   constructor(private service: PostService, private router: Router) {
   }
 
-  updatePost(post) {
-    this.service.updatePost(post)
-      .subscribe(response => {
-        let index = this.posts.indexOf(post);
-        this.posts[index].title = this.inputPostForm.value.title;
-        this.posts[index].body = this.inputPostForm.value.body;
-        console.log(response);
-      })
+  // updatePost(post) {
+  //   this.service.updatePost(post)
+  //     .subscribe(response => {
+  //       let index = this.posts.indexOf(post);
+  //       this.posts[index].title = this.inputPostForm.value.title;
+  //       this.posts[index].body = this.inputPostForm.value.body;
+  //       console.log(response);
+  //     })
 
-  }
+  // }
 
   deletePost(post) {
     //console.log(post);
@@ -35,13 +35,10 @@ export class PostsComponent implements OnInit {
           this.posts.splice(index, 1);
         })
     }
-
   }
-
 
   nvaigateToAdd() {
     this.router.navigate(['/addPost']);
-
   }
 
   ngOnInit() {
@@ -50,6 +47,10 @@ export class PostsComponent implements OnInit {
         this.posts = response;
         //console.log(this.posts);
       })
-  }
 
+//compunnal  example
+      this.service.getApprovedStatus().subscribe(responseData => {
+      console.log(responseData.Content.Result);
+    })
+  }
 }
