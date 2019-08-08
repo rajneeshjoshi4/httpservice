@@ -30,9 +30,12 @@ export class EditpostComponent implements OnInit {
 
     this.service.getPosts().subscribe(responseData => {
       this.posts = responseData;
-      var index = _.findIndex(responseData, { id: this.id })
+      var findPost = _.find(responseData, { id: this.id })
       //console.log(index);
-      this.post = this.posts[index];
+      this.post = findPost;
+
+      // var index = _.findIndex(responseData, { id: this.id })
+      // this.post = this.posts[index];
       console.log(this.post);
 
       this.editPostForm.setValue({
