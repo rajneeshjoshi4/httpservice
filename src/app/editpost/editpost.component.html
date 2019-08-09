@@ -1,17 +1,18 @@
 <a routerLink="/">Back</a>
 <div>
-  <form [formGroup]="editPostForm" (ngSubmit)="onUpdate()">
+  <form [formGroup]="editPostForm" (ngSubmit)="onSubmit()">
     <label>Title:</label>
     <input formControlName="title" type="text" />
 
     <label>Body:</label>
     <input formControlName="body" type="text" />
 
-    <button type="submit">Update</button>
+    <button *ngIf="!editMode" type="submit">Add</button>
+    <button *ngIf="editMode" type="submit">Update</button>
   </form>
 
   <div *ngIf="isAdded">{{confermationStr}}</div>
 
 </div>
 
-{{id}}
+<span *ngIf="editMode">{{id}}</span>

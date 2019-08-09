@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../services/post.service';
-import { RouterModule, Routes, Router } from '@angular/router';
+import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
@@ -12,19 +12,10 @@ export class PostsComponent implements OnInit {
   @ViewChild('form', { static: true }) inputPostForm: NgForm;
   posts: any = [];
 
-  constructor(private service: PostService, private router: Router) {
+  constructor(private service: PostService,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
-
-  // updatePost(post) {
-  //   this.service.updatePost(post)
-  //     .subscribe(response => {
-  //       let index = this.posts.indexOf(post);
-  //       this.posts[index].title = this.inputPostForm.value.title;
-  //       this.posts[index].body = this.inputPostForm.value.body;
-  //       console.log(response);
-  //     })
-
-  // }
 
   deletePost(post) {
     //console.log(post);
@@ -38,7 +29,7 @@ export class PostsComponent implements OnInit {
   }
 
   nvaigateToAdd() {
-    this.router.navigate(['/addPost']);
+    this.router.navigate(['addPost'], { relativeTo: this.route });
   }
 
   ngOnInit() {
@@ -48,9 +39,10 @@ export class PostsComponent implements OnInit {
         //console.log(this.posts);
       })
 
-//compunnal  example
-      this.service.getApprovedStatus().subscribe(responseData => {
-      console.log(responseData.Content.Result);
+    //compunnal  example
+    this.service.getApprovedStatus().subscribe(responseData => {
+      //console.log(responseData.Content.Result);
+      console.log(responseData);
     })
   }
 }
