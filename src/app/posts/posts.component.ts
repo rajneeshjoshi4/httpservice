@@ -9,21 +9,30 @@ import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
-  @ViewChild('form', { static: true }) inputPostForm: NgForm;
-  posts: any = [];
+  //@ViewChild('form', { static: true }) inputPostForm: NgForm;
+  posts: any;
 
   constructor(private service: PostService,
     private router: Router,
     private route: ActivatedRoute) {
+    this.posts = [];
+  }
+
+  getAllPosts() {
+    this.service.getPostsList()
+      .subscribe(response => {
+        this.posts = response;
+        //console.log(this.posts);
+      })
+
   }
 
   deletePost(post) {
     //console.log(post);
     if (confirm('Are you sure?')) {
-      this.service.deletePost(post)
+      this.service.deletePost(post.id)
         .subscribe(response => {
-          let index = this.posts.indexOf(post)
-          this.posts.splice(index, 1);
+          this.getAllPosts();
         })
     }
   }
@@ -32,12 +41,12 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['addPost'], { relativeTo: this.route });
   }
 
+  trackPost(index, post) {
+    return post ? post.id : undefined;
+  }
+
   ngOnInit() {
-    this.service.getPosts()
-      .subscribe(response => {
-        this.posts = response;
-        //console.log(this.posts);
-      })
+    this.getAllPosts();
 
     //compunnal  example
     this.service.getApprovedStatus().subscribe(responseData => {

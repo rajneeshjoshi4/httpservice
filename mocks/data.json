@@ -1,19 +1,9 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "welcome",
-      "body": "65"
-    },
-    {
-      "title": "Rajneesh Joshi",
-      "body": "TEST TEST",
-      "id": 2
-    },
-    {
+      "id": 3,
       "title": "test",
-      "body": "test",
-      "id": 3
+      "body": "teste123456"
     },
     {
       "title": "New Post",
@@ -26,9 +16,9 @@
       "body": "estet"
     },
     {
-      "id": 6,
-      "title": "nw",
-      "body": "ne"
+      "title": "new",
+      "body": "new",
+      "id": 6
     }
   ]
 }
